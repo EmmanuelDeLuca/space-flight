@@ -1,0 +1,11 @@
+div#footer {
+    background-color: #333333;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.25);
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

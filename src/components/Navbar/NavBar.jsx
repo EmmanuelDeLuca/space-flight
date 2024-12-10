@@ -1,11 +1,11 @@
 import React from "react";
-import logoImg from "../../assets/images/tecnologia.png"
-import "../Navbar/styles.css"
+import logoImg from "../../assets/images/tecnologia.png";
+import "../Navbar/styles.css";
 
-class NavBar extends React.Component {
-    render() {
-        return (
-            <header>
+export class NavBar extends React.Component {
+  render() {
+    return (
+      <header>
         <nav id="navbar">
           <div className="nav-brand">
             <img src={logoImg} alt="" />
@@ -23,12 +23,10 @@ class NavBar extends React.Component {
             </li>
             <li>
               <a href="/">About us</a>
-            </li> 
+            </li>
           </ul>
         </nav>
       </header>
-        );
-    }
+    );
+  }
 }
-
-export default NavBar;
