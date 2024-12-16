@@ -1,48 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./styles/App.css";
 import { NavBar } from "./components/Navbar/NavBar";
 import { Article } from "./components/Article/Article";
-
-import imageRetrato from "./assets/images/retrato.jpg";
-import imageDias from "./assets/images/dias.jpg";
-import imageDashboard from "./assets/images/dashboard.jpg";
 import { Footer } from "./components/Footer/Footer";
+import { ThreeDots } from "react-loader-spinner";
+import axios from "axios";
 
-export class App extends React.Component {
+export function App() {
   // Método responsável por renderizar o conteúdo HTML do componente
-  render() {
-    return (
-      <>
-        <NavBar />
 
-        <section id="articles">
-          <Article
-            title="Designing Dashboards"
-            provider="NASA"
-            description="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum itaque quo dicta natus odio veritatis, sint optio consequatur. Quidem porro impedit odit aspernatur optio voluptatibus animi blanditiis illum, aliquam doloremque?"
-            imageNoticia={imageDashboard}
-          />
-          <Article
-            title="Vibrant Portraits of 2020"
-            provider="Space News"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Error eveniet facere sapiente, numquam assumenda nam unde debitis perspiciatis! Doloremque eveniet facere beatae laboriosam et totam maiores quasi, sint sunt repellendus. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laborum, voluptas? Laboriosam, obcaecati fuga libero molestias pariatur voluptate impedit, temporibus eos nulla inventore incidunt fugiat facilis eveniet, repudiandae voluptas exercitationem ratione."
-            imageNoticia={imageRetrato}
-          />
-          <Article
-            title="360 Days of Malayalam type"
-            provider="Space Flight Now"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, perspiciatis corrupti deserunt qui commodi quam alias placeat eos. Libero quod illo a labore velit porro soluta laboriosam asperiores repellat qui! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea odit amet numquam accusantium culpa voluptatibus architecto veniam vitae quas tempore vero autem non sint, nulla neque explicabo ratione dolore? Suscipit! Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo omnis obcaecati consequuntur dolores, ad incidunt repellendus officiis dolor tenetur necessitatibus molestiae, quasi ullam asperiores nesciunt sequi earum culpa veniam voluptas?"
-            imageNoticia={imageDias}
-          />
-          <Article
-            title="Designing Dashboards"
-            provider="NASA"
-            description="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum itaque quo dicta natus odio veritatis, sint optio consequatur. Quidem porro impedit odit aspernatur optio voluptatibus animi blanditiis illum, aliquam doloremque?"
-            imageNoticia={imageDashboard}
-          />
-        </section>
-        <Footer />
-      </>
-    );
-  }
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    async function loadNews() {
+      const response = await axios.get(
+        "https://api.spaceflightnewsapi.net/v4/articles"
+      );
+      const newsData = response.data;
+
+      setNews(newsData.results);
+    }
+
+    loadNews();
+  }, []);
+
+  return (
+    <>
+      <NavBar />
+
+      <section id="articles">
+        {news.length === 0 ? (
+          <div style={{height: '400px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <ThreeDots
+              height={80}
+              width={80}
+              radius={9}
+              color={"white"}
+              ariaLabel={"loading"}
+              wrapperStyle={{ marginTop: "20px", display: "flex" }} // Correção aqui
+              wrapperClass="spinner-class" // Classe CSS
+            />
+          </div>
+        ) : (
+          news.map((article) => {
+            return (
+              <Article
+                key={article.id}
+                title={article.title}
+                provider={article.news_site}
+                description={article.summary}
+                imageNoticia={article.image_url}
+              />
+            );
+          })
+        )}
+      </section>
+      <Footer />
+    </>
+  );
 }
