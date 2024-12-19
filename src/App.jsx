@@ -30,15 +30,23 @@ export function App() {
 
       <section id="articles">
         {news.length === 0 ? (
-          <div style={{height: '400px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <div
+            style={{
+              height: "400px",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <ThreeDots
               height={80}
               width={80}
               radius={9}
               color={"white"}
               ariaLabel={"loading"}
-              wrapperStyle={{ marginTop: "20px", display: "flex" }} // Correção aqui
-              wrapperClass="spinner-class" // Classe CSS
+              wrapperStyle={{ marginTop: "20px", display: "flex" }}
+              wrapperClass="spinner-class"
             />
           </div>
         ) : (
